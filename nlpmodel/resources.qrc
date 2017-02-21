@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fonts/Hiragino Sans GB W3.otf</file>
+        <file>fonts/liberationmono.ttf</file>
+        <file>fonts/PingFangM.ttf</file>
+        <file>fonts/STKaiTi.ttf</file>
+        <file>schedule.txt</file>
+        <file>data.json</file>
+        <file>article.txt</file>
+    </qresource>
+</RCC>
