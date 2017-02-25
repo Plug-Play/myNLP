@@ -4,9 +4,11 @@ import QtQuick.Layouts 1.1
 import QtQuick.Window 2.2
 
 Item {
+    property var word: []
+    property var words: []
     ApplicationWindow{
         id: inputShow
-        width: 300; height: 350
+        width: 300; height: 450
         color: systemPalette.window
         TextField{
             id: input
@@ -36,8 +38,64 @@ Item {
             font.family: uiFont.name
             text: ""
         }
+        TextArea{
+            id: output2
+            anchors.top: output.bottom
+            anchors.topMargin: 10
+            anchors.horizontalCenter: input.horizontalCenter
+            height: 40
+            font.family: uiFont.name
+            text: ""
+        }
+        Button{
+            id: showFreq
+            anchors.top: output2.bottom
+            anchors.topMargin: 5
+            anchors.horizontalCenter: input.horizontalCenter
+            text: "ShowFreq"
+            onClicked: {
+                var freq = []
+                freq = funcer.getAllWordFreq(inputer.word, mainWindow.article)
+                console.log(freq)
 
-        property var words: []
+                for(var i = 0; i < word.length; ++i){
+                    for(var j = 0; j < word[i].length; ++j){
+                        output2.text = output2.text + word[i][j] + " " + freq[i][j] + "   "
+                    }
+                    output2.text = output2.text + "\n"
+                }
+            }
+        }
+        TextArea{
+            id: output3
+            anchors.top: showFreq.bottom
+            anchors.topMargin: 10
+            anchors.horizontalCenter: input.horizontalCenter
+            height: 40
+            font.family: uiFont.name
+            text: ""
+        }
+        Button{
+            id: showFreq2
+            anchors.top: output3.bottom
+            anchors.topMargin: 5
+            anchors.horizontalCenter: input.horizontalCenter
+            text: "ShowBitFreq"
+            onClicked: {
+                var bitWords = [], freq = []
+                bitWords = funcer.getBitGramWords(inputer.word)
+                freq = funcer.getAllWordFreq(bitWords)
+
+                for(var i = 0; i < bitWords.length; ++i){
+                    for(var j = 0; j < bitWords[i].length; ++j){
+                        output3.text = output3.text + bitWords[i][j] + " " + freq[i][j] + "   "
+                    }
+                    output3.text = output3.text + "\n"
+                }
+            }
+        }
+
+
         function judge(){
             var pinyinArray = [], allPinyinArray = [], ans = []
             var pinyinLength = []
@@ -62,7 +120,7 @@ Item {
                 }
                 //console.log("Debug: ", ss)
                 if(ss === input.text){
-                    var word = [], l = allPinyinArray[i].length
+                    word = []; var l = allPinyinArray[i].length
                     for(var k in allPinyinArray[i]){
                         var word1 = []
                         for(var chinese in dataObj[pinyinArray[allPinyinArray[i][k]]])
@@ -107,9 +165,13 @@ Item {
                                                 words.push(word[0][i6] + word[1][j6] + word[2][k6] + word[3][l6] + word[4][m6] + word[5][n6])
                     }
                     console.log("Finally: ", words)
+                    console.log("Word: ", word)
                     output.text = ""
+
+                    var wordsP = []
+                    wordsP = funcer.getWordsP(words)
                     for(var eachWord in words){
-                        output.text = output.text + words[eachWord] + " "
+                        output.text = output.text + "[" + words[eachWord] + " " + wordsP[eachWord] + "] "
                     }
 
                     return true

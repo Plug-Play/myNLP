@@ -21,6 +21,10 @@ ApplicationWindow {
     color: systemPalette.window
     SystemPalette{id: systemPalette}
     FontLoader{id: uiFont; source: "qrc:/fonts/PingFangM.ttf"}
+    property string dataString
+    property var dataObj
+    property string schedule
+    property string article
     menuBar:MenuBar{
         Menu{
             title: "显示"
@@ -30,7 +34,6 @@ ApplicationWindow {
         Menu{
             title: "函数"
             MenuItem{text: "条件概率函数"; onTriggered: {funcer.showCondFunc()}}
-            MenuItem{text: "频率统计函数"; onTriggered: {funcer.showHZ()}}
         }
         Menu{
             title: "输入"
@@ -65,14 +68,11 @@ ApplicationWindow {
             id: pBtn
             x: 250; y: 100
             text: "条件概率函数"
-            onClicked: {}
+            onClicked: {
+                funcer.getBitGramWords(inputer.word)
+            }
         }
-        Button{
-            id: hzBtn
-            x: 250; y: 200
-            text: "频率统计函数"
-            onClicked: {}
-        }
+
         Button{
             id: analyCorrect
             x: 400; y: 100
@@ -81,11 +81,6 @@ ApplicationWindow {
         }
 
     }
-
-    property string dataString
-    property var dataObj
-    property string schedule
-    property string article
 
     View{
         id: viewer
